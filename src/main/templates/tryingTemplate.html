@@ -1,0 +1,42 @@
+<h2 class="try-title"><%= label %></h2>
+
+<p class="try-description"><%= description %></p>
+
+<form class="try-form">
+	<table class="try-params">
+
+		<%
+			_.each(params, function(param) {
+				var visibleClass = ( param.get("visible") ? "try-param-visible" : "try-param-hidden" );
+		%>
+
+			<tr class="<%= visibleClass %>">
+				<td class="try-label"><%= param.getLabel() %>:</td>
+				<td class="try-param">
+					<input id="<%= param.get("name") %>" value="<%= param.get("value") %>" type="text" class="trying-input" />
+					<span class="try-param-desc"><%= param.get("description") %></span>
+				</td>
+			</tr>
+
+		<% }); %>
+
+		<tr>
+			<td></td>
+			<td>
+				<input type="submit" value="Try" class="try-button" />
+				<span class="try-result-status"></span>
+			</td>
+		</tr>
+
+	</table>
+</form>
+
+<div class="try-result">
+	Result:
+	<span class="try-result-formatters">
+		Format:
+		<button class="try-format-json">JSON</button>
+		<button class="try-format-xml">XML</button>
+	</span>
+	<textarea class="try-result-text"></textarea>
+</div>

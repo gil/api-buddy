@@ -1,0 +1,242 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+@import "compass/reset";
+@import "compass/css3/box-shadow";
+
+/*******
+ **	VARIABLES
+ ***/
+
+$dark-blue: #4477AA;
+$light-blue: #336699;
+$dark-gray: #444444;
+$light-gray: #F8F8F8;
+$lighter-gray: #FBFBFB;
+
+/*******
+ **	DEFAULT
+ ***/
+
+body {
+	background-color: $lighter-gray;
+	color: $dark-gray;
+	font: {
+		family: 'Helvetica Neue', 'Helvetica', 'Arial';
+		size: 15px;
+	}
+}
+
+a {
+	color: $light-blue;
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+		color: $dark-blue;
+	}
+}
+
+p {
+	margin: 20px 0px 20px 0px;
+}
+
+input[type="text"], textarea {
+	@include single-box-shadow( rgba(0,0,0,.05), 0px, 1px, 2px, 0px, true );
+	color: $dark-gray;
+	background-color: #EFEFEF;
+	border: 1px solid #CCCCCC;
+	width: 250px;
+}
+
+input[type="submit"], button {
+	margin: 0px;
+	padding: 2px 10px 2px 10px;
+	border: 1px solid #CCCCCC;
+	background-color: #F8F8F8;
+	color: $dark-gray;
+
+	&:hover {
+		background-color: #FBFBFB;
+	}
+}
+
+b, strong {
+	font-weight: bold;
+}
+
+i, em {
+	font-style: italic;
+}
+
+h1 {
+	font-size: 2em;
+	font-weight: bold;
+	margin: 0.67em 0px 0.67em 0px;
+}
+
+h2 {
+	font-size: 1.5em;
+	font-weight: bold;
+	margin: 0.83em 0px 0.83em 0px;
+}
+
+h3 {
+	font-size: 1.17em;
+	font-weight: bold;
+	margin: 1em 0px 1em 0px;
+}
+
+h4 {
+	font-size: 1em;
+	font-weight: bold;
+	margin: 1.33em 0px 1.33em 0px;
+}
+
+h5 {
+	font-size: 0.83em;
+	font-weight: bold;
+	margin: 1.67em 0px 1.67em 0px;
+}
+
+h6 {
+	font-size: 0.67em;
+	font-weight: bold;
+	margin: 2.33em 0px 2.33em 0px;
+}
+
+blockquote {
+	margin: 40px 30px 40px 30px;
+	padding-left: 10px;
+	border-left: 1px solid #CCCCCC;
+	font-size: 0.95em;
+}
+
+ul {
+	list-style: disc;
+	margin: 20px 30px 20px 30px;
+}
+
+ol {
+	list-style: decimal;
+	margin: 20px 30px 20px 30px;
+}
+
+code {
+	font-family: monospace;
+}
+
+/*******
+ **	ENDPOINTS
+ ***/
+
+.endpoints {
+	float: left;
+	background-color: $light-gray;
+	margin: 0px;
+	padding: 15px;
+	width: 21%;
+	overflow: auto;
+	list-style: none;
+	font-weight: bold;
+	font-size: 1.1em;
+
+	.group-endpoints {
+		margin: 0px 0px 20px 10px;
+		list-style: none;
+		font-size: 0.9em;
+		font-weight: normal;
+
+		.endpoint {
+			white-space: nowrap;
+
+			.endpoint-method {
+				font-size: 0.8em;
+			}
+
+			.endpoint-label {
+				font-size: 1em;
+				cursor: pointer;
+			}
+
+		}
+	}
+}
+
+/*******
+ **	TRYING
+ ***/
+
+.trying {
+	width: 71%;
+	float: left;
+	padding: 15px;
+
+	.try-title {
+		margin: 0px 0px 10px 0px;
+	}
+
+	.try-description {
+		margin: 20px 0px 40px 0px;
+	}
+
+	.try-params {
+		border: 0px none;
+		font-size: 0.8em;
+
+		.try-param-hidden {
+			display: none;
+		}
+
+		.try-label {
+			vertical-align: top;
+			padding: 0px 20px 0px 0px;
+			font-weight: bold;
+		}
+
+		.try-param {
+			vertical-align: top;
+			padding: 0px 0px 10px 0px;
+
+			.try-param-desc {
+				font-size: 0.8em;
+				display: block;
+			}
+		}
+	}
+
+	.try-result-status {
+		font-size: 1em;
+		font-weight: bold;
+
+		&.status-yellow {
+			color: #D9D919;
+		}
+		&.status-green {
+			color: #238E23;
+		}
+		&.status-red {
+			color: #A62A2A;
+		}
+	}
+}
+
+.try-result {
+	font-weight: bold;
+	font-size: 0.9em;
+	margin-top: 40px;
+
+	.try-result-formatters {
+		margin: 0px;
+		padding: 0px;
+		float:right;
+	}
+
+	.try-result-text{
+		width: 100%;
+		height: 300px;
+		margin-bottom: 40px;
+	}
+}
