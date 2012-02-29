@@ -31,7 +31,7 @@ define([
 			}));
 
 			$(this.el).html( trying );
-			$(this.el).find(".try-form").on("submit", {endpoint: endpoint}, this.tryClick);
+			$(this.el).find(".try-form").on("submit", {_this: this, endpoint: endpoint}, this.tryClick);
 			$(this.el).find(".try-format-json").on("click", this.formatJSON);
 			$(this.el).find(".try-format-xml").on("click", this.formatXML);
 
@@ -41,24 +41,40 @@ define([
 
 		tryClick: function(e) {
 
-			// Read parameters
-			var params = {};
-			
-			$(".trying-input").each(function(index, el){
-				
-				el = $(el);
-
-				if( el.val().trim().length > 0 ) {
-					params[ el.attr("id") ] = el.val();	
-				}
-			});
+			var endpoint = e.data.endpoint;
+			var _this = e.data._this;
 
 			// Call API
-			TryingController.tryEndpoint( e.data.endpoint, params );
+			TryingController.tryEndpoint( endpoint, _this.getParamElements(endpoint) );
 
 			// Avoid submiting form
 			e.preventDefault();
 			return false;
+		},
+
+		getParamElements: function(endpoint) {
+
+			// Find elements for each endpoint parameter and return a map
+			var requestParams = [];
+			var params = endpoint.get("params");
+
+			if( params.length > 0 ) {
+
+				params = params.models;
+
+				_.each(params, function(param){
+
+					var paramName = param.get("name");
+					var el = $("#" + paramName + ".trying-input");
+
+					requestParams.push({
+						model: param,
+						el: el
+					});
+				});
+			}
+
+			return requestParams;
 		},
 
 		updateStatus: function(status) {

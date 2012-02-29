@@ -8,7 +8,8 @@ define(function(){
 			value: null,
 			description: null,
 			visible: true,
-			globalParam: false
+			globalParam: false,
+			urlParam: false
 		},
 
 		getLabel: function() {

@@ -47,7 +47,13 @@ define(function(){
 					},
 					{
 						url: "/natures/{media-id}",
-						method: "GET"
+						method: "GET",
+						params: [
+							{
+								name: "media-id",
+								urlParam: true
+							}
+						]
 					},
 					{
 						url: "/natures",

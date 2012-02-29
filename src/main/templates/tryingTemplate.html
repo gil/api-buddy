@@ -13,7 +13,9 @@
 				var flag = "";
 
 				if( param.get("globalParam") ) {
-					flag = "(Global)"
+					flag = "(Global)";
+				} else if( param.get("urlParam") ) {
+					flag = "(URL Param)";
 				}
 
 		%>
