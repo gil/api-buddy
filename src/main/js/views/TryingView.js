@@ -1,8 +1,9 @@
 define([
 	"controllers/TryingController",
 	"collections/ParamsCollection",
-	"text!templates/tryingTemplate.html"
-],function(TryingController, ParamsCollection, tryingTemplate){
+	"text!templates/tryingTemplate.html",
+	"text!templates/footerTemplate.html"
+],function(TryingController, ParamsCollection, tryingTemplate, footerTemplate){
 
 	var TryingView = Backbone.View.extend({
 
@@ -34,6 +35,9 @@ define([
 			$(this.el).find(".try-form").on("submit", {_this: this, endpoint: endpoint}, this.tryClick);
 			$(this.el).find(".try-format-json").on("click", this.formatJSON);
 			$(this.el).find(".try-format-xml").on("click", this.formatXML);
+
+			// Add footer
+			$(this.el).append( footerTemplate );
 
 			// Add API trying screen			
 			$("body").append(this.el);
