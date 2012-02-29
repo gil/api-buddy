@@ -19,6 +19,8 @@ define([
 
 		render: function(endpoint) {
 
+			var el = $(this.el);
+
 			// Read parameters to render
 			var globalParams = ParamsCollection.globalParams.models;
 			var endpointParams = endpoint.get("params").models;
@@ -31,16 +33,16 @@ define([
 				params: allParams
 			}));
 
-			$(this.el).html( trying );
-			$(this.el).find(".try-form").on("submit", {_this: this, endpoint: endpoint}, this.tryClick);
-			$(this.el).find(".try-format-json").on("click", this.formatJSON);
-			$(this.el).find(".try-format-xml").on("click", this.formatXML);
+			el.html( trying );
+			el.find(".try-form").on("submit", {_this: this, endpoint: endpoint}, this.tryClick);
+			el.find(".try-format-json").on("click", this.formatJSON);
+			el.find(".try-format-xml").on("click", this.formatXML);
 
 			// Add footer
-			$(this.el).append( footerTemplate );
+			el.append( footerTemplate );
 
 			// Add API trying screen			
-			$("body").append(this.el);
+			$("body").append(el);
 		},
 
 		tryClick: function(e) {
