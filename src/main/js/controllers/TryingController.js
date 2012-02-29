@@ -56,6 +56,8 @@ define(function(){
 
 				dataType: "text",
 
+				crossDomain: true,
+
 				success: function(data, textStatus, jqXHR) {
 
 					APIBuddy.trigger("tryResult", data);
