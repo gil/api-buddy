@@ -1,5 +1,5 @@
 define([
-	"Config",
+	"Config.flickr",
 	"views/EndpointsView",
 	"views/TryingView",
 	"controllers/GroupsController",
@@ -19,10 +19,18 @@ define([
 
 			//var router = new AppRouter();
 			//Backbone.history.start();
+
+			// Register views
 			this.registerViews();
 
+			// Register Config globally, to make it easier to access 
+			window.Config = Config;
+
+			// Parse config data
 			GroupsController.parseGroups( Config.groups );
 			ParamsController.parseGlobalParams( Config.globalParams );
+
+			// Start first view
 			APIBuddy.endpointsView();
 
 		},

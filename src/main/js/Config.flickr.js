@@ -4,8 +4,6 @@ define(function(){
 
 		url: "http://localhost/flickr/api",
 
-		methodParam: "_method",
-
 		globalParams: [
 			{
 				name: "api_key",

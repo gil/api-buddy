@@ -1,6 +1,4 @@
-define([
-	"Config"
-],function(Config){
+define(function(){
 
 	var TryingController = {
 
