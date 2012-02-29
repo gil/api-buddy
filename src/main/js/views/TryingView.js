@@ -21,16 +21,11 @@ define([
 
 			var el = $(this.el);
 
-			// Read parameters to render
-			var globalParams = ParamsCollection.globalParams.models;
-			var endpointParams = endpoint.get("params").models;
-			var allParams = globalParams.concat( endpointParams );
-
 			// Render screen
 			var trying = $(this.tryingTemplate({
 				label: "[" + endpoint.get("method").toUpperCase() + "] " + endpoint.getLabel(),
 				description: endpoint.get("description"),
-				params: allParams
+				params: this.getAllParams( endpoint )
 			}));
 
 			el.html( trying );
@@ -43,6 +38,14 @@ define([
 
 			// Add API trying screen			
 			$("body").append(el);
+		},
+
+		getAllParams: function(endpoint) {
+
+			var globalParams = ParamsCollection.globalParams.models;
+			var endpointParams = endpoint.get("params").models;
+
+			return globalParams.concat( endpointParams );
 		},
 
 		tryClick: function(e) {
@@ -62,23 +65,18 @@ define([
 
 			// Find elements for each endpoint parameter and return a map
 			var requestParams = [];
-			var params = endpoint.get("params");
+			var params = this.getAllParams( endpoint );
 
-			if( params.length > 0 ) {
+			_.each(params, function(param){
 
-				params = params.models;
+				var paramName = param.get("name");
+				var el = $("#" + paramName + ".trying-input");
 
-				_.each(params, function(param){
-
-					var paramName = param.get("name");
-					var el = $("#" + paramName + ".trying-input");
-
-					requestParams.push({
-						model: param,
-						el: el
-					});
+				requestParams.push({
+					model: param,
+					el: el
 				});
-			}
+			});
 
 			return requestParams;
 		},
