@@ -7,7 +7,8 @@ define(function(){
 			name: null,
 			value: null,
 			description: null,
-			visible: true
+			visible: true,
+			globalParam: false
 		},
 
 		getLabel: function() {

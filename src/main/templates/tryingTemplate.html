@@ -7,13 +7,22 @@
 
 		<%
 			_.each(params, function(param) {
+
 				var visibleClass = ( param.get("visible") ? "try-param-visible" : "try-param-hidden" );
+
+				var flag = "";
+
+				if( param.get("globalParam") ) {
+					flag = "(Global)"
+				}
+
 		%>
 
 			<tr class="<%= visibleClass %>">
 				<td class="try-label"><%= param.getLabel() %>:</td>
 				<td class="try-param">
 					<input id="<%= param.get("name") %>" value="<%= param.get("value") %>" type="text" class="trying-input" />
+					<span class="try-param-flag"><%= flag %></span>
 					<span class="try-param-desc"><%= param.get("description") %></span>
 				</td>
 			</tr>
