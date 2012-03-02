@@ -200,6 +200,10 @@ code {
 			vertical-align: top;
 			padding: 0px 0px 10px 0px;
 
+			.try-param-add, .try-param-remove {
+				cursor: pointer;
+			}
+
 			.try-param-flag {
 				font-size: 0.8em;
 			}

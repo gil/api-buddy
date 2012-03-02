@@ -29,7 +29,13 @@ define([
 			}));
 
 			el.html( trying );
+			
+			// Add endpoint handlers
 			el.find(".try-form").on("submit", {_this: this, endpoint: endpoint}, this.tryClick);
+			el.find(".try-param-add").on("click", this.duplicateParam);
+			el.find(".try-param-remove").on("click", this.removeParam);
+
+			// Add formating handlers
 			el.find(".try-format-json").on("click", this.formatJSON);
 			el.find(".try-format-xml").on("click", this.formatXML);
 
@@ -59,6 +65,33 @@ define([
 			// Avoid submiting form
 			e.preventDefault();
 			return false;
+		},
+
+		duplicateParam: function(e) {
+
+			// Get input and clone it
+			var input = $(e.target).parent().find(".trying-input");
+			var clone = input.clone();
+
+			// Create a div and add to the DIV outside the field
+			input.parent().parent().append(
+				$('<div class="param-clone"></div>').append( clone )
+			);
+
+			// Focus the cloned input
+			clone.val("").focus();
+		},
+
+		removeParam: function(e) {
+
+			// Find all clones
+			var clones = $(e.target).parent().parent().find(".param-clone");
+
+			// Remove the last one
+			clones.last().remove();
+
+			// Focus the last one now
+			clones.eq(-2).find(".trying-input").focus();
 		},
 
 		getParamElements: function(endpoint) {

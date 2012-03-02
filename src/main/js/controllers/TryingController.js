@@ -19,7 +19,7 @@ define(function(){
 			_.each(params, function(param){
 
 				var name = param.model.get("name");
-				var value = param.el.val() ? param.el.val().trim() : "";
+				var value = getValueFrom( param.el );
 
 				// URL param?
 				if( param.model.get("urlParam") ) {
@@ -27,7 +27,7 @@ define(function(){
 					// Replace all occurrences on URL
 					url = url.split("{" + name + "}").join(value);
 
-				} else if( value.length > 0 ) {
+				} else if( value != null ) {
 
 					// Add to send on Ajax request
 					ajaxParams[ name ] = value;
@@ -47,12 +47,17 @@ define(function(){
 				}
 			}
 
+			// Should we send arrays the traditional way?
+			var traditionalSerialization = Config.traditionalSerialization ? true : false;
+
 			// Do Ajax request
 			$.ajax(url, {
 
 				type: method,
 
 				data: ajaxParams,
+
+				traditional: traditionalSerialization,
 
 				dataType: "text",
 
@@ -75,6 +80,34 @@ define(function(){
 
 		}
 
+	}
+
+	function getValueFrom(fields) {
+
+		var values = [];
+
+		// Get all the values
+		fields.each(function(index, field){
+
+			var value = $(field).val();
+
+			if( value && value.length > 0 ) {
+				values.push( value );
+			}
+		});
+
+		if( values.length == 1 ) {
+
+			// Single value, return as string
+			return values[0];
+
+		} else if( values.length > 1 ) {
+
+			// Multiple values, return as array
+			return values;
+		}
+
+		return null;
 	}
 
 	return TryingController;
