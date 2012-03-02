@@ -18,7 +18,6 @@ require([
 	"order!APIBuddy"
 ], function(){
 
-	var APIBuddy = _.last(arguments);
 	APIBuddy.start();
 
 });
