@@ -12,8 +12,8 @@ define(function(){
 			},
 			{
 				name: "format",
-				value: "json",
-				description: "Request output format. (json, rest, php_serial)"
+				value: ["json", "rest", "php_serial"],
+				description: "Request output format."
 			},
 			{
 				name: "nojsoncallback",

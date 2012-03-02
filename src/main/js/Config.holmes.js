@@ -219,7 +219,8 @@ define(function(){
 							},
 							{
 								name: "propertyType",
-								description: "The type to describe the property. (Accepted values: 'LIST', 'TEXT', 'DATE', 'BOOLEAN', 'TAG', 'NUMBER')"
+								value: ["LIST", "TEXT", "DATE", "BOOLEAN", "TAG", "NUMBER"],
+								description: "The type to describe the property."
 							},
 							{
 								name: "values",
@@ -243,7 +244,8 @@ define(function(){
 							},
 							{
 								name: "propertyType",
-								description: "The type to describe the property. (Accepted values: 'LIST', 'TEXT', 'DATE', 'BOOLEAN', 'TAG', 'NUMBER')"
+								value: ["LIST", "TEXT", "DATE", "BOOLEAN", "TAG", "NUMBER"],
+								description: "The type to describe the property."
 							},
 							{
 								name: "values",

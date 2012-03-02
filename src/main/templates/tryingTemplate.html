@@ -28,7 +28,24 @@
 
 						<!-- First field -->
 						<div>
-							<input id="<%= param.get("name") %>" value="<%= param.get("value") %>" type="text" class="trying-input" />
+
+							<%
+								var value = param.get("value");
+
+								if( _.isArray( value ) ) {
+							%>
+
+								<select id="<%= param.get("name") %>" class="trying-input">
+									<% _.each(value, function(option){ %>
+										<option><%= option %></option>
+									<% }); %>
+								</select>
+
+							<% } else { %>
+
+								<input id="<%= param.get("name") %>" value="<%= value %>" type="text" class="trying-input" />
+
+							<% } %>
 
 							<% if( param.get("multiValue") ) { %>
 								<a class="try-param-add">[+]</a>
