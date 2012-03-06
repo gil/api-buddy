@@ -2,7 +2,9 @@ define(function(){
 
 	var Config = {
 
-		url: "http://localhost/flickr/api",
+		url: "http://localhost/api-buddy/php/proxy.php",
+		
+		usingProxy: true,
 
 		globalParams: [
 			{

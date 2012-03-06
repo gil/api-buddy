@@ -8,7 +8,8 @@ define(function(){
 			APIBuddy.trigger("updateStatus", {label: "Loading...", className: "status-yellow"});
 
 			// Generate URL
-			var url = Config.url + endpoint.get("url");
+			var url = Config.url;
+			var endpointUrl = endpoint.get("url");
 
 			// Read the method
 			var method = endpoint.get("method").trim().toLowerCase();
@@ -25,7 +26,7 @@ define(function(){
 				if( param.model.get("urlParam") ) {
 
 					// Replace all occurrences on URL
-					url = url.split("{" + name + "}").join(value);
+					endpointUrl = endpointUrl.split("{" + name + "}").join(value);
 
 				} else if( value != null ) {
 
@@ -49,6 +50,18 @@ define(function(){
 
 			// Should we send arrays the traditional way?
 			var traditionalSerialization = Config.traditionalSerialization ? true : false;
+
+			// Using proxy? Send the URL and method
+			if( Config.usingProxy ) {
+
+				ajaxParams[ "__api_url" ] = endpointUrl;
+				ajaxParams[ "__api_method" ] = method;
+
+			} else {
+
+				// No proxy, just append the endpoint to the URL
+				url += endpointUrl;
+			}
 
 			// Do Ajax request
 			$.ajax(url, {
