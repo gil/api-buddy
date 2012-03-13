@@ -5,11 +5,25 @@
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
+	<script src="js/libs/spin.min.js" type="text/javascript"></script>
 	<link href="css/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
 	<script data-main="js/main" src="js/require.js" type="text/javascript"></script>
 
 </head>
 <body>
+
+	<div id="appLoader" style="position: absolute; top: 50%; left: 50%;"></div>
+
+	<script type="text/javascript">
+		window.appLoader = new Spinner({
+										lines: 10,
+										length: 6,
+										width: 4,
+										radius: 7,
+										color: "#000000",
+										speed: 1.5
+		}).spin( document.getElementById("appLoader") );
+	</script>
 
 </body>
 </html>

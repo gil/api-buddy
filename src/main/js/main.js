@@ -18,6 +18,10 @@ require([
 	"order!APIBuddy"
 ], function(){
 
+	// Loaded!! Remove global spinner.
+	window.appLoader.stop();
+
+	// Start app
 	APIBuddy.start();
 
 });
