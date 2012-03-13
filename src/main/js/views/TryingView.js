@@ -99,11 +99,12 @@ define([
 			// Find elements for each endpoint parameter and return a map
 			var requestParams = [];
 			var params = this.getAllParams( endpoint );
+			var inputs = $(".trying-input");
 
 			_.each(params, function(param){
 
 				var paramName = param.get("name");
-				var el = $("#" + paramName + ".trying-input");
+				var el = inputs.filter("#" + paramName);
 
 				requestParams.push({
 					model: param,
