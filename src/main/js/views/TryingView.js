@@ -1,9 +1,10 @@
 define([
 	"controllers/TryingController",
 	"collections/ParamsCollection",
+	"models/ParamModel",
 	"text!templates/tryingTemplate.html",
 	"text!templates/footerTemplate.html"
-],function(TryingController, ParamsCollection, tryingTemplate, footerTemplate){
+],function(TryingController, ParamsCollection, ParamModel, tryingTemplate, footerTemplate){
 
 	var TryingView = Backbone.View.extend({
 
@@ -25,6 +26,7 @@ define([
 			var trying = $(this.tryingTemplate({
 				label: "[" + endpoint.get("method").toUpperCase() + "] " + endpoint.getLabel(),
 				description: endpoint.get("description"),
+				dynamicParams: endpoint.get("dynamicParams"),
 				params: this.getAllParams( endpoint )
 			}));
 
@@ -69,17 +71,17 @@ define([
 
 		duplicateParam: function(e) {
 
-			// Get input and clone it
-			var input = $(e.target).parent().find(".trying-input");
-			var clone = input.clone();
+			// Get elements to be cloned and clone
+			var input = $(e.target).parent().find(".trying-input, .trying-signal");
+			var clones = input.clone();
 
 			// Create a div and add to the DIV outside the field
 			input.parent().parent().append(
-				$('<div class="param-clone"></div>').append( clone )
+				$('<div class="param-clone"></div>').append( clones )
 			);
 
 			// Focus the cloned input
-			clone.val("").focus();
+			clones.val("").first().focus();
 		},
 
 		removeParam: function(e) {
@@ -109,6 +111,18 @@ define([
 				requestParams.push({
 					model: param,
 					el: el
+				});
+			});
+
+			// Get dynamic parameters
+			var dynParamNames = $(".trying-input.dyn-param-name").toArray();
+			var dynParamValues = $(".trying-input.dyn-param-value").toArray();
+
+			_.each(dynParamNames, function(nameField, index){
+
+				requestParams.push({
+					model: new ParamModel({ name: $(nameField).val() }),
+					el: $(dynParamValues[index])
 				});
 			});
 

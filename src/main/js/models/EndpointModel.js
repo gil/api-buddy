@@ -5,6 +5,7 @@ define(function(){
 		defaults: {
 			label: null,
 			description: null,
+			dynamicParams: false,
 			url: "",
 			method: "GET",
 			params: []

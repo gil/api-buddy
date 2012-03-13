@@ -66,6 +66,22 @@
 
 		<% }); %>
 
+		<% if( dynamicParams ) { %>
+			<tr>
+				<td class="try-label">Dynamic Parameters:</td>
+				<td class="try-param">
+					<div>
+						<input type="text" class="trying-input dyn-param-name" />
+						<span class="trying-signal"> = </span>
+						<input type="text" class="trying-input dyn-param-value" />
+
+						<a class="try-param-add">[+]</a>
+						<a class="try-param-remove">[-]</a>
+					</div>
+				</td>
+			</tr>
+		<% } %>
+
 		<tr>
 			<td></td>
 			<td>

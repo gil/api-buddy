@@ -219,6 +219,26 @@ code {
 				font-size: 0.8em;
 				display: block;
 			}
+
+			// Dynamic Parameters
+			.dyn-param-name {
+				width: 80px;
+			}
+
+			.dyn-param-value {
+				width: 150px;
+			}
+
+			.trying-signal {
+				width: 10px;
+				display: inline-block;
+			}
+
+			.param-clone {
+				.trying-signal {
+					margin: 0px 3px 0px 3px;
+				}
+			}
 		}
 	}
 
