@@ -133,12 +133,14 @@ code {
  ***/
 
 .endpoints {
-	float: left;
+	position: absolute;
+	overflow: auto;
 	background-color: $light-gray;
 	margin: 0px;
 	padding: 15px;
 	width: 21%;
-	overflow: auto;
+	top: 0px;
+	bottom: 0px;
 	list-style: none;
 	font-weight: bold;
 	font-size: 1.1em;
@@ -170,9 +172,14 @@ code {
  ***/
 
 .trying {
-	width: 71%;
-	float: left;
-	padding: 15px;
+	position: absolute;
+	overflow: auto;
+	margin: 0px;
+	padding: 15px 50px 15px 50px;
+	left: 21%;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
 
 	.try-title {
 		margin: 0px 0px 10px 0px;
