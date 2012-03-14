@@ -1,10 +1,11 @@
 define([
 	"controllers/TryingController",
 	"collections/ParamsCollection",
+	"collections/ErrorsCollection",
 	"models/ParamModel",
 	"text!templates/tryingTemplate.html",
 	"text!templates/footerTemplate.html"
-],function(TryingController, ParamsCollection, ParamModel, tryingTemplate, footerTemplate){
+],function(TryingController, ParamsCollection, ErrorsCollection, ParamModel, tryingTemplate, footerTemplate){
 
 	var TryingView = Backbone.View.extend({
 
@@ -29,7 +30,8 @@ define([
 				method: endpoint.get("method"),
 				description: endpoint.get("description"),
 				dynamicParams: endpoint.get("dynamicParams"),
-				params: this.getAllParams( endpoint )
+				params: this.getAllParams( endpoint ),
+				errors: this.getAllErrors( endpoint )
 			}));
 
 			el.html( trying );
@@ -56,6 +58,14 @@ define([
 			var endpointParams = endpoint.get("params").models;
 
 			return globalParams.concat( endpointParams );
+		},
+
+		getAllErrors: function(endpoint) {
+
+			var globalErrors = ErrorsCollection.globalErrors.models;
+			var endpointErrors = endpoint.get("errors").models;
+
+			return endpointErrors.concat( globalErrors );
 		},
 
 		tryClick: function(e) {

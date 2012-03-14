@@ -111,3 +111,32 @@
 	</span>
 	<textarea class="try-result-text"></textarea>
 </div>
+
+<% if( errors.length > 0 ) { %>
+	<h2 class="try-title">Errors</h2>
+	
+	<ul class="try-errors">
+		<% _.each(errors, function(error) { %>
+
+			<li>
+				<%= error.get("label") %>
+				<ul>
+
+					<%
+						var descriptions = error.get("description");
+
+						if( !_.isArray( descriptions ) ) {
+							descriptions = [descriptions];
+						}
+
+						_.each(descriptions, function(description){ %>
+							<li><%= description %></li>
+						<% });
+					%>
+
+				</ul>
+			</li>
+
+		<% }); %>
+	</ul>
+<% } %>

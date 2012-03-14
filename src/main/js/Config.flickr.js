@@ -24,6 +24,37 @@ define(function(){
 			}
 		],
 
+		globalErrors: [
+			{
+				label: "100: Invalid API Key",
+				description: "The API key passed was not valid or has expired."
+			},
+			{
+				label: "105: Service currently unavailable",
+				description: "The requested service is temporarily unavailable."
+			},
+			{
+				label: "111: Format \"xxx\" not found",
+				description: "The requested response format was not found."
+			},
+			{
+				label: "112: Method \"xxx\" not found",
+				description: "The requested method was not found."
+			},
+			{
+				label: "114: Invalid SOAP envelope",
+				description: "The SOAP envelope send in the request could not be parsed."
+			},
+			{
+				label: "115: Invalid XML-RPC Method Call",
+				description: "The XML-RPC request document could not be parsed."
+			},
+			{
+				label: "116: Bad URL found",
+				description: "One or more arguments contained a URL that has been used for abuse on Flickr."
+			}
+		],
+
 		groups: [
 
 			{
@@ -46,6 +77,44 @@ define(function(){
 							{
 								name: "tags",
 								description: "A comma-delimited list of tags. Photos with one or more of the tags listed will be returned. You can exclude results that match a term by prepending it with a - character."
+							}
+						],
+						errors: [
+							{
+								label: "1: Too many tags in ALL query",
+								description: "When performing an 'all tags' search, you may not specify more than 20 tags to join together."
+							},
+							{
+								label: "2: Unknown user",
+								description: "A user_id was passed which did not match a valid flickr user."
+							},
+							{
+								label: "3: Parameterless searches have been disabled",
+								description: "To perform a search with no parameters (to get the latest public photos, please use flickr.photos.getRecent instead)."
+							},
+							{
+								label: "4: You don't have permission to view this pool",
+								description: "The logged in user (if any) does not have permission to view the pool for this group."
+							},
+							{
+								label: "10: Sorry, the Flickr search API is not currently available.",
+								description: "The Flickr API search databases are temporarily unavailable."
+							},
+							{
+								label: "11: No valid machine tags",
+								description: "The query styntax for the machine_tags argument did not validate."
+							},
+							{
+								label: "12: Exceeded maximum allowable machine tags",
+								description: "The maximum number of machine tags in a single query was exceeded."
+							},
+							{
+								label: "17: You can only search within your own contacts",
+								description: "The call tried to use the contacts parameter with no user ID or a user ID other than that of the authenticated user."
+							},
+							{
+								label: "18: Illogical arguments",
+								description: "The request contained contradictory arguments."
 							}
 						]
 					},

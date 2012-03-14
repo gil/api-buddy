@@ -8,7 +8,8 @@ define(function(){
 			dynamicParams: false,
 			url: "",
 			method: "GET",
-			params: []
+			params: [],
+			errors: []
 		},
 
 		getLabel: function() {

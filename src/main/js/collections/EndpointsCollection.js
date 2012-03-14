@@ -1,7 +1,8 @@
 define([
 	"models/EndpointModel",
-	"collections/ParamsCollection"
-], function(EndpointModel, ParamsCollection){
+	"collections/ParamsCollection",
+	"collections/ErrorsCollection"
+], function(EndpointModel, ParamsCollection, ErrorsCollection){
 	
 	var EndpointsCollection = Backbone.Collection.extend({
 
@@ -22,6 +23,16 @@ define([
 				});
 
 				endpoint.set("params", paramsCollection);
+
+				// Generate errors collection
+				var errors = endpoint.get("errors");
+				var errorsCollection = new ErrorsCollection();
+
+				_.each(errors, function(error) {
+					errorsCollection.add( error );
+				});
+
+				endpoint.set("errors", errorsCollection);
 
 			});
 

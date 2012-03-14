@@ -4,8 +4,9 @@ define([
 	"views/EndpointsView",
 	"views/TryingView",
 	"controllers/GroupsController",
-	"controllers/ParamsController"
-],function(Config, AppRouter, EndpointsView, TryingView, GroupsController, ParamsController) {
+	"controllers/ParamsController",
+	"controllers/ErrorsController"
+],function(Config, AppRouter, EndpointsView, TryingView, GroupsController, ParamsController, ErrorsController) {
 
 	window.APIBuddy = {
 
@@ -29,6 +30,7 @@ define([
 			// Parse config data
 			GroupsController.parseGroups( Config.groups );
 			ParamsController.parseGlobalParams( Config.globalParams );
+			ErrorsController.parseGlobalErrors( Config.globalErrors );
 
 			// Start first view
 			APIBuddy.tryingView();
