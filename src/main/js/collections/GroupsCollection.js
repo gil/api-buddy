@@ -11,6 +11,7 @@ define([
 
 			_.each(groups, function(group) {
 
+				// Generate endpoints collection
 				var endpoints = new EndpointsCollection();
 
 				_.each(group.endpoints, function(endpoint) {

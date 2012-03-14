@@ -1,10 +1,11 @@
 define([
 	"Config.flickr",
+	"routers/AppRouter",
 	"views/EndpointsView",
 	"views/TryingView",
 	"controllers/GroupsController",
 	"controllers/ParamsController"
-],function(Config, EndpointsView, TryingView, GroupsController, ParamsController) {
+],function(Config, AppRouter, EndpointsView, TryingView, GroupsController, ParamsController) {
 
 	window.APIBuddy = {
 
@@ -15,10 +16,9 @@ define([
 
 		viewInstances: {},
 
-		start: function() {
+		router: null,
 
-			//var router = new AppRouter();
-			//Backbone.history.start();
+		start: function() {
 
 			// Register views
 			this.registerViews();
@@ -31,8 +31,12 @@ define([
 			ParamsController.parseGlobalParams( Config.globalParams );
 
 			// Start first view
-			APIBuddy.endpointsView();
+			APIBuddy.tryingView();
+			APIBuddy.endpointsView().render();
 
+			// Start history manager
+			this.router = new AppRouter();
+			Backbone.history.start();
 		},
 
 		registerViews: function() {

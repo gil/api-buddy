@@ -13,6 +13,7 @@ define([
 
 			_.each(endpointModels, function(endpoint) {
 
+				// Generate parameters collection
 				var params = endpoint.get("params");
 				var paramsCollection = new ParamsCollection();
 

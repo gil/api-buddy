@@ -14,12 +14,12 @@ define([
 
 			this.endpointTemplate = _.template( endpointTemplate );
 			this.groupTemplate = _.template( groupTemplate );
-			this.render();
 		},
 
 		render: function() {
 
 			// For each endpoint group
+			var groupId = 0;
 			var groups = GroupsCollection.groups.models;
 
 			_.each( groups, function(group) {
@@ -33,6 +33,7 @@ define([
 				$(this.el).append(groupRenderer);
 
 				// For each endpoint in group
+				var endpointId = 0;
 				var endpoints = group.get("endpoints").models;
 
 				_.each( endpoints, function(endpoint) {
@@ -44,11 +45,16 @@ define([
 						url: endpoint.get("url")
 					}));
 
-					endpointRenderer.find(".endpoint-label").on("click", {endpoint: endpoint}, this.endpointClick);
-					
+					endpointRenderer.find(".endpoint-label").on("click", {group: groupId, endpoint: endpointId}, this.endpointClick);
 					endpointsUL.append(endpointRenderer);
 
+					// Increment endpoint ID
+					endpointId++;
+
 				}, this);
+
+				// Increment group ID
+				groupId++;
 
 			}, this);
 
@@ -58,8 +64,7 @@ define([
 
 		endpointClick: function(e) {
 
-			APIBuddy.tryingView();	
-			APIBuddy.trigger("endpointSelected", e.data.endpoint);
+			APIBuddy.router.navigate("try/" + e.data.group + "/" + e.data.endpoint, {trigger: true});
 		}
 
 	});
