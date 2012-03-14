@@ -40,7 +40,8 @@ define([
 					// Append the endpoint
 					var endpointRenderer = $(this.endpointTemplate({
 						method : endpoint.get("method"),
-						label: endpoint.getLabel()
+						label: endpoint.getLabel(),
+						url: endpoint.get("url")
 					}));
 
 					endpointRenderer.find(".endpoint-label").on("click", {endpoint: endpoint}, this.endpointClick);

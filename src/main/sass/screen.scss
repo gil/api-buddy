@@ -182,11 +182,16 @@ code {
 	bottom: 0px;
 
 	.try-title {
-		margin: 0px 0px 10px 0px;
+		margin: 0px;
+	}	
+
+	.try-url {
+		font-weight: normal;
+		margin: 5px 0px 0px 0px;
 	}
 
 	.try-description {
-		margin: 20px 0px 40px 0px;
+		margin: 30px 0px 40px 0px;
 	}
 
 	.try-params {

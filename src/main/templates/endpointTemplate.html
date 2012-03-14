@@ -1,4 +1,6 @@
 <li class="endpoint">
-	<span class="endpoint-method">[<%= method.toUpperCase() %>]</span>
+	<% if(  label === url || url === "" ) { %>
+		<span class="endpoint-method">[<%= method.toUpperCase() %>]</span>
+	<% } %>
 	<a class="endpoint-label"><%= label %></a>
 </li>

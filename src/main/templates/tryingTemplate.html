@@ -1,4 +1,13 @@
-<h2 class="try-title"><%= label %></h2>
+<% if(  label !== url && url !== "" ) { %>
+
+	<h2 class="try-title"><%= label %></h2>
+	<h5 class="try-url">[<%= method %>] <%= url %></h5>
+
+<% } else { %>
+
+	<h2 class="try-title">[<%= method %>] <%= label %></h2>
+
+<% } %>
 
 <p class="try-description"><%= description %></p>
 

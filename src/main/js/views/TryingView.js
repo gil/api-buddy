@@ -24,7 +24,9 @@ define([
 
 			// Render screen
 			var trying = $(this.tryingTemplate({
-				label: "[" + endpoint.get("method").toUpperCase() + "] " + endpoint.getLabel(),
+				label: endpoint.getLabel(),
+				url: endpoint.get("url"),
+				method: endpoint.get("method"),
 				description: endpoint.get("description"),
 				dynamicParams: endpoint.get("dynamicParams"),
 				params: this.getAllParams( endpoint )
