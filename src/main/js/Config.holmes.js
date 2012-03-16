@@ -2,12 +2,23 @@ define(function(){
 
 	var Config = {
 
-		url: "http://localhost:8080/holmes/api",
+		url: 'http://localhost/holmes/api',
 
 		methodParam: "_method",
 
 		traditionalSerialization: true,
 
+		globalErrors: [
+			{
+				label: "400",
+				description: "Malformed request."
+			},
+			{
+				label: "403",
+				description: "Forbidden."
+			}
+		],
+		
 		groups: [
 
 			// Login API
@@ -15,6 +26,7 @@ define(function(){
 				name: "Login",
 				endpoints: [
 					{
+						label: "Login",
 						url: "/login",
 						method: "POST",
 						description: "Spring Security session-based login Endpoint.",
@@ -32,19 +44,28 @@ define(function(){
 								value: ["off", "on"],
 								description: "When 'on', the session will remain for 2 weeks."
 							}
+						],
+						errors: [
+							{
+								label: "401 - Unauthorized",
+								description: "Authentication Failed: Bad credentials."
+							}
 						]
 					},
 					{
+						label: "Logout",
 						url: "/logout",
 						method: "GET",
 						description: "Log user out."
 					},
 					{
+						label: "Keep Alive Session",
 						url: "/keepAlive",
 						method: "GET",
 						description: "Used to check if the session is still active and returns the logged user data.",
 					},
 					{
+						label: "Change Password",
 						url: "/changePassword",
 						method: "POST",
 						description: "Change logged user's password.",
@@ -64,6 +85,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Forgot Password",
 						url: "/public/forgotPassword",
 						method: "POST",
 						description: "Receive a new password via e-mail for given user.",
@@ -82,6 +104,7 @@ define(function(){
 				name: "Users",
 				endpoints: [
 					{
+						label: "Read",
 						url: "/users/{id}",
 						method: "GET",
 						description: "Read the user from the data base.",
@@ -94,6 +117,7 @@ define(function(){
 						]
 					},
 					{
+						label: "List",
 						url: "/users",
 						method: "GET",
 						description: "List the users in pages.",
@@ -111,6 +135,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Create",
 						url: "/users",
 						method: "POST",
 						description: "Create a new user with the given attributes. The password will be sent to the user email.",
@@ -135,6 +160,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Update",
 						url: "/users",
 						method: "PUT",
 						description: "Update the user data.",
@@ -148,10 +174,6 @@ define(function(){
 								description: "The user name."
 							},
 							{
-								name: "username",
-								description: "The username to access the application."
-							},
-							{
 								name: "email",
 								description: "The email of the user."
 							},
@@ -163,6 +185,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Delete",
 						url: "/users",
 						method: "DELETE",
 						description: "Delete the user owner of the passed ID.",
@@ -174,26 +197,28 @@ define(function(){
 						]
 					},
 					{
-						url: "/users/{userEmail}/profiles/",
+						label: "List User's Profiles",
+						url: "/users/{username}/profiles/",
 						method: "GET",
 						description: "List the profiles for the user.",
 						params: [
 							{
-								name: "userEmail",
+								name: "username",
 								urlParam: true,
-								description: "The user Email."
+								description: "The username."
 							}
 						]
 					},
 					{
-						url: "/users/{userEmail}/restrictions/",
+						label: "List User's Restrictions",
+						url: "/users/{username}/restrictions/",
 						method: "GET",
 						description: "List the restrictions for the user.",
 						params: [
 							{
-								name: "userEmail",
+								name: "username",
 								urlParam: true,
-								description: "The user Email."
+								description: "The username."
 							}
 						]
 					}
@@ -205,6 +230,7 @@ define(function(){
 				name: "Search",
 				endpoints: [
 					{
+						label: "Execute Search",
 						url: "/search",
 						method: "GET",
 						description: "Search for documents stored on Holmes.",
@@ -215,10 +241,12 @@ define(function(){
 							},
 							{
 								name: "start",
+								value: 0,
 								description: "The first document from result pagination. Starts at 0."
 							},
 							{
 								name: "rows",
+								value: 5,
 								description: "The amount of documents to receive."
 							}
 						]
@@ -231,11 +259,20 @@ define(function(){
 				name: "Natures",
 				endpoints: [
 					{
+						label: "Auto Complete List",
 						url: "/natures/simple",
 						method: "GET",
-						description: "List the simplified version of natures and properties for the user."
+						description: "List the simplified version of natures and properties for the user.",
+						params: [
+							{
+								name: "permissionType",
+								description: "The permission Type.",
+								value: ["VIEW", "DOWNLOAD", "CLASSIFICATION", "EDIT"]
+							}
+						]
 					},
 					{
+						label: "Read",
 						url: "/natures/{id}",
 						method: "GET",
 						description: "Read the nature from the data base, with the passed ID.",
@@ -248,6 +285,7 @@ define(function(){
 						]
 					},
 					{
+						label: "List",
 						url: "/natures",
 						method: "GET",
 						description: "List the natures in pages.",
@@ -265,6 +303,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Create",
 						url: "/natures",
 						method: "POST",
 						description: "Create a new nature with the given attributes.",
@@ -276,6 +315,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Update",
 						url: "/natures",
 						method: "PUT",
 						description: "Actually the update method is not permitted for natures. You can't change the nature's name, and natures only have the name attribute. This method will be used in the future to change other nature's attributes.",
@@ -291,6 +331,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Delete",
 						url: "/natures",
 						method: "DELETE",
 						description: "Delete the nature owner of the passed ID.",
@@ -302,6 +343,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Add Property to Nature",
 						url: "/natures/addProperty",
 						method: "POST",
 						description: "Add a new property to the nature as an association.",
@@ -326,6 +368,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Remove Property from Nature",
 						url: "/natures/removeProperty",
 						method: "POST",
 						description: "Remove the property from the nature.",
@@ -341,6 +384,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Arrange Properties in Nature",
 						url: "/natures/arrangeProperties",
 						method: "POST",
 						description: "Rearrange the order of the associations with the properties within the nature.",
@@ -364,6 +408,7 @@ define(function(){
 				name: "Properties",
 				endpoints: [
 					{
+						label: "Read",
 						url: "/properties/{id}",
 						method: "GET",
 						description: "Read the property from the data base.",
@@ -376,6 +421,7 @@ define(function(){
 						]
 					},
 					{
+						label: "List",
 						url: "/properties",
 						method: "GET",
 						description: "List the properties in pages.",
@@ -393,6 +439,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Create",
 						url: "/properties",
 						method: "POST",
 						description: "Create a new property with the given attributes. The 'values' attribute defines the different values possible for a 'LIST' property. You can add more values to the attribute.",
@@ -414,6 +461,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Update",
 						url: "/properties",
 						method: "PUT",
 						description: "Update the property with the given attributes. The 'values' attribute defines the different values possible for a 'LIST' property. You can add more values to the attribute.",
@@ -439,6 +487,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Delete",
 						url: "/properties",
 						method: "DELETE",
 						description: "Delete the property owner of the passed ID.",
@@ -457,6 +506,7 @@ define(function(){
 				name: "Profiles",
 				endpoints: [
 					{
+						label: "Read",
 						url: "/profiles/{id}",
 						method: "GET",
 						description: "Read the profile from the data base. The Profile will be completly loaded, with all permissions and properties associated.",
@@ -469,6 +519,7 @@ define(function(){
 						]
 					},
 					{
+						label: "List",
 						url: "/profiles",
 						method: "GET",
 						description: "List the profiles in pages.",
@@ -486,6 +537,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Create",
 						url: "/profiles",
 						method: "POST",
 						description: "Create a new profile.",
@@ -497,6 +549,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Update",
 						url: "/profiles",
 						method: "PUT",
 						description: "Update the profile.",
@@ -512,6 +565,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Delete",
 						url: "/profiles",
 						method: "DELETE",
 						description: "Delete the profile owner of the passed ID, and all its permissions.",
@@ -523,6 +577,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Add Permission to Profile",
 						url: "/profiles/addPermission",
 						method: "POST",
 						description: "Add a new permission to the profile, with the especified nature and type.",
@@ -543,6 +598,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Remove Permission from Profile",
 						url: "/profiles/removePermission",
 						method: "POST",
 						description: "Remove the permission from the profile.",
@@ -554,6 +610,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Add Property to Permission",
 						url: "/profiles/permissions/addProperties",
 						method: "POST",
 						dynamicParams: true,
@@ -566,6 +623,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Remove Property from Permission",
 						url: "/profiles/permissions/removeProperty",
 						method: "POST",
 						description: "Remove the property from the permission.",
@@ -581,6 +639,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Clear Properties from Permission",
 						url: "/profiles/permissions/clearProperties",
 						method: "POST",
 						description: "Remove all the properties from the permission.",
@@ -592,6 +651,7 @@ define(function(){
 						]
 					},
 					{
+						label: "List Users for Profile",
 						url: "/profiles/{profileId}/users",
 						method: "GET",
 						description: "List the users for the profile.",
@@ -604,6 +664,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Add User to Profile",
 						url: "/profiles/addUsers",
 						method: "POST",
 						description: "Add all the users to all the profiles.",
@@ -621,6 +682,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Remove User from Profile",
 						url: "/profiles/removeUsers",
 						method: "POST",
 						description: "Remove all the users form all the profiles.",
@@ -646,6 +708,7 @@ define(function(){
 				name: "Restrictions",
 				endpoints: [
 					{
+						label: "Read",
 						url: "/restrictions/{id}",
 						method: "GET",
 						description: "Read the restriction from the data base.",
@@ -658,6 +721,7 @@ define(function(){
 						]
 					},
 					{
+						label: "List",
 						url: "/restrictions",
 						method: "GET",
 						description: "List the restrictions in pages.",
@@ -675,6 +739,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Create",
 						url: "/restrictions",
 						method: "POST",
 						description: "Create a new restriction.",
@@ -694,6 +759,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Update",
 						url: "/restrictions",
 						method: "PUT",
 						description: "Update the restriction.",
@@ -717,6 +783,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Delete",
 						url: "/restrictions",
 						method: "DELETE",
 						description: "Delete the restriction owner of the passed ID.",
@@ -728,6 +795,7 @@ define(function(){
 						]
 					},
 					{
+						label: "Add Restriction to User",
 						url: "/restrictions/addUser",
 						method: "POST",
 						description: "Add the user to the restriction.",
@@ -742,7 +810,8 @@ define(function(){
 							}
 						]
 					},
-					{
+					{	
+						label: "Remove Restriction from User",
 						url: "/restrictions/removeUser",
 						method: "POST",
 						description: "Remove the user form the restriction.",
@@ -758,8 +827,47 @@ define(function(){
 						]
 					}
 				]
+			},
+			
+			// Classification API
+			
+			{
+				name: "Classification",
+				endpoints: [
+					{
+						label: "Classify Document",
+						url: "/classification/classifyDocument",
+						method: "POST",
+						dynamicParams: true,
+						description: "Classify the Document, as the nature and properties values.",
+						params: [
+							{
+								name: "documentId",
+								description: "The document ID."
+							},
+							{
+								name: "natureId",
+								description: "The nature ID."
+							}
+						]
+					},
+					{
+						label: "Retrive Document Classification",
+						url: "/classification/retrieveClassification/{documentId}",
+						method: "GET",
+						description: "Retrive the classification for the document.",
+						params: [
+							{
+								name: "documentId",
+								urlParam: true,
+								description: "The document ID."
+							}
+						]
+					}
+				]
 			}
 
+			// Next Group
 			
 		]
 
