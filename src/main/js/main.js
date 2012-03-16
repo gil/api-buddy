@@ -17,11 +17,13 @@ require([
 	"order!libs/vkbeautify",
 	"order!APIBuddy"
 ], function(){
+	$(document).ready(function(){
 
-	// Loaded!! Remove global spinner.
-	window.appLoader.stop();
+		// Loaded!! Remove global spinner.
+		window.appLoader.stop();
 
-	// Start app
-	APIBuddy.start();
-
+		// Start app
+		APIBuddy.start();
+		
+	});
 });
