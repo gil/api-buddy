@@ -9,11 +9,36 @@ define([
 
 	var TryingView = Backbone.View.extend({
 
+		events: {
+			"submit .try-form" : "tryClick",
+			"click .try-param-add" : "duplicateParam",
+			"click .try-param-remove" : "removeParam",
+			"click .try-format-json" : "formatJSON",
+			"click .try-format-xml" : "formatXML"
+		},
+
+		elements: {
+			"tryResultText" : ".try-result-text",
+			"inputs" : ".trying-input",
+			"status" : ".try-result-status"
+		},
+
 		className: "trying",
+
+		endpoint: null,
 
 		initialize: function() {
 
+			// Initialize properties
+			this.endpoint = null;
+
+			// Bind functions
+			this.tryClick = _.bind(this.tryClick, this);
+
+			// Render templates
 			this.tryingTemplate = _.template( tryingTemplate );
+
+			// Listen to events
 			APIBuddy.on("endpointSelected", this.render, this);
 			APIBuddy.on("tryResult", this.showResult, this);
 			APIBuddy.on("updateStatus", this.updateStatus, this);
@@ -21,35 +46,25 @@ define([
 
 		render: function(endpoint) {
 
-			var el = $(this.el);
+			// Store endpoint
+			this.endpoint = endpoint;
 
 			// Render screen
-			var trying = $(this.tryingTemplate({
-				label: endpoint.getLabel(),
-				url: endpoint.get("url"),
-				method: endpoint.get("method"),
-				description: endpoint.get("description"),
-				dynamicParams: endpoint.get("dynamicParams"),
-				params: this.getAllParams( endpoint ),
-				errors: this.getAllErrors( endpoint )
-			}));
+			this.$el
+				.empty()
+				.append( this.tryingTemplate({
+					label: endpoint.getLabel(),
+					url: endpoint.get("url"),
+					method: endpoint.get("method"),
+					description: endpoint.get("description"),
+					dynamicParams: endpoint.get("dynamicParams"),
+					params: this.getAllParams( endpoint ),
+					errors: this.getAllErrors( endpoint )
+				}) )
+				.append( footerTemplate )
+				.appendTo( $("body") );
 
-			el.html( trying );
-			
-			// Add endpoint handlers
-			el.find(".try-form").on("submit", {_this: this, endpoint: endpoint}, this.tryClick);
-			el.find(".try-param-add").on("click", this.duplicateParam);
-			el.find(".try-param-remove").on("click", this.removeParam);
-
-			// Add formating handlers
-			el.find(".try-format-json").on("click", this.formatJSON);
-			el.find(".try-format-xml").on("click", this.formatXML);
-
-			// Add footer
-			el.append( footerTemplate );
-
-			// Add API trying screen			
-			$("body").append(el);
+			this.reloadElements();
 		},
 
 		getAllParams: function(endpoint) {
@@ -70,11 +85,8 @@ define([
 
 		tryClick: function(e) {
 
-			var endpoint = e.data.endpoint;
-			var _this = e.data._this;
-
 			// Call API
-			TryingController.tryEndpoint( endpoint, _this.getParamElements(endpoint) );
+			TryingController.tryEndpoint( this.endpoint, this.getParamElements(this.endpoint) );
 
 			// Avoid submiting form
 			e.preventDefault();
@@ -88,24 +100,24 @@ define([
 			var clones = input.clone();
 
 			// Create a div and add to the DIV outside the field
-			input.parent().parent().append(
+			input.parents(".try-param").append(
 				$('<div class="param-clone"></div>').append( clones )
 			);
 
-			// Focus the cloned input
+			// Clena values and focus the cloned input
 			clones.val("").first().focus();
 		},
 
 		removeParam: function(e) {
 
 			// Find all clones
-			var clones = $(e.target).parent().parent().find(".param-clone");
+			var clones = $(e.target).parents(".try-param").find(".param-clone");
 
 			// Remove the last one
 			clones.last().remove();
 
 			// Focus the last one now
-			clones.eq(-2).find(".trying-input").focus();
+			clones.eq(-2).find(".trying-input").first().focus();
 		},
 
 		getParamElements: function(endpoint) {
@@ -113,28 +125,25 @@ define([
 			// Find elements for each endpoint parameter and return a map
 			var requestParams = [];
 			var params = this.getAllParams( endpoint );
-			var inputs = $(".trying-input");
 
 			_.each(params, function(param){
 
-				var paramName = param.get("name");
-				var el = inputs.filter("#" + paramName);
-
 				requestParams.push({
 					model: param,
-					el: el
+					el: this.$inputs.filter( "#" + param.get("name") )
 				});
-			});
+
+			}, this);
 
 			// Get dynamic parameters
-			var dynParamNames = $(".trying-input.dyn-param-name").toArray();
-			var dynParamValues = $(".trying-input.dyn-param-value").toArray();
+			var dynParamNames = this.$(".trying-input.dyn-param-name").toArray();
+			var dynParamValues = this.$(".trying-input.dyn-param-value").toArray();
 
 			_.each(dynParamNames, function(nameField, index){
 
 				requestParams.push({
 					model: new ParamModel({ name: $(nameField).val() }),
-					el: $(dynParamValues[index])
+					el: $( dynParamValues[index] )
 				});
 			});
 
@@ -142,15 +151,17 @@ define([
 		},
 
 		updateStatus: function(status) {
-			$(".try-result-status").html( "[" + status.label + "]" )
-									.removeClass("status-yellow status-green status-red")
-									.addClass(status.className);
+			
+			this.$status
+				.html( "[" + status.label + "]" )
+				.removeClass("status-yellow status-green status-red")
+				.addClass(status.className);
 		},
 
 		showResult: function(result) {
 
 			// Show result
-			$(".try-result-text").val(result);
+			this.$tryResultText.val(result);
 
 			// Try to auto format result
 			if( result ) {
@@ -165,8 +176,8 @@ define([
 		formatJSON: function() {
 
 			try{
-				var resultTextArea = $(".try-result-text");
-				resultTextArea.val( vkbeautify.json( resultTextArea.val() ) );
+				var formatedVal = vkbeautify.json( this.$tryResultText.val() );
+				this.$tryResultText.val( formatedVal );
 				//JSON.stringify(JSON.parse(text), null, '\t');
 			} catch (e) {
 				alert("Invalid format!");
@@ -176,8 +187,8 @@ define([
 		formatXML: function() {
 
 			try{
-				var resultTextArea = $(".try-result-text");
-				resultTextArea.val( vkbeautify.xml( resultTextArea.val() ) );
+				var formatedVal = vkbeautify.xml( this.$tryResultText.val() );
+				this.$tryResultText.val( formatedVal );
 			} catch (e) {
 				alert("Invalid format!");
 			}

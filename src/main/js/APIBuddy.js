@@ -5,8 +5,9 @@ define([
 	"views/TryingView",
 	"controllers/GroupsController",
 	"controllers/ParamsController",
-	"controllers/ErrorsController"
-],function(Config, AppRouter, EndpointsView, TryingView, GroupsController, ParamsController, ErrorsController) {
+	"controllers/ErrorsController",
+	"helpers/BackboneHelpers"
+],function(Config, AppRouter, EndpointsView, TryingView, GroupsController, ParamsController, ErrorsController, BackboneHelpers) {
 
 	window.APIBuddy = {
 
