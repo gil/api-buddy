@@ -148,7 +148,18 @@ define([
 		},
 
 		showResult: function(result) {
+
+			// Show result
 			$(".try-result-text").val(result);
+
+			// Try to auto format result
+			if( result ) {
+				if( result.charAt(0) == "{" ) {
+					this.formatJSON();
+				} else if( result.charAt(0) == "<" ) {
+					this.formatXML();
+				}
+			}
 		},
 
 		formatJSON: function() {
