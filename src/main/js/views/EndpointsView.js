@@ -28,9 +28,10 @@ define([
 				var groupRenderer = $(this.groupTemplate({
 					name: group.get("name")
 				}));
+				
+				this.$el.append(groupRenderer);
 
-				var endpointsUL = $(groupRenderer).find(".group-endpoints");
-				$(this.el).append(groupRenderer);
+				var endpointsUL = groupRenderer.find(".group-endpoints");
 
 				// For each endpoint in group
 				var endpointId = 0;
