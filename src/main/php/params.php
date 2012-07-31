@@ -14,4 +14,14 @@ while ($element = current($_POST)) {
 	next($_POST);
 }
 
+if( $_FILES ) {
+
+	echo( "\nFILE: \n\n" );
+
+	while ($element = current($_FILES)) {
+		echo( key($_FILES) . '=' . $element['name'] . "\n" );
+		next($_FILES);
+	}
+}
+
 ?>
