@@ -10,19 +10,9 @@ define([
 
 	window.APIBuddy = {
 
-		views: {
-			"endpointsView": EndpointsView,
-			"tryingView": TryingView
-		},
-
-		viewInstances: {},
-
 		router: null,
 
 		start: function() {
-
-			// Register views
-			this.registerViews();
 
 			// Register Config globally, to make it easier to access 
 			window.Config = Config;
@@ -32,31 +22,13 @@ define([
 			ParamsController.parseGlobalParams( Config.globalParams );
 			ErrorsController.parseGlobalErrors( Config.globalErrors );
 
-			// Start first view
-			APIBuddy.tryingView();
-			APIBuddy.endpointsView().render();
+			// Init views
+			new TryingView();
+			new EndpointsView().render();
 
 			// Start history manager
 			this.router = new AppRouter();
 			Backbone.history.start();
-		},
-
-		registerViews: function() {
-
-			for( var viewName in this.views ) {
-				APIBuddy[viewName] = this.getView(viewName);
-			}
-		},
-
-		getView: function(viewName) {
-			return function() {
-
-				if( typeof this.viewInstances[viewName] === "undefined" ) {
-					this.viewInstances[viewName] = new this.views[viewName]();
-				}
-
-				return this.viewInstances[viewName];
-			};
 		}
 
 	};
