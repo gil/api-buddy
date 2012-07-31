@@ -1545,6 +1545,36 @@ define(function(){
 						]
 					},
 					{
+						label: "Thumbnail",
+						url: "/thumb/{id}",
+						description: "Return document thumbnail image.",
+						params: [
+							{
+								name: "id",
+								urlParam: true,
+								description: "The document ID."
+							}
+						]
+					},
+					{
+						label: "Preview Page",
+						url: "/preview/{id}/page/{page}",
+						description: "Return document page preview image.",
+						params: [
+							{
+								name: "id",
+								urlParam: true,
+								description: "The document ID."
+							},
+							{
+								name: "page",
+								value: "0",
+								urlParam: true,
+								description: "The page to load."
+							}
+						]
+					},
+					{
 						label: "Lock Document",
 						url: "/document/{id}/lockForEditing",
 						method: "POST",

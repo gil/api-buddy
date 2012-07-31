@@ -178,18 +178,32 @@ define([
 				.addClass(status.className);
 		},
 
-		showResult: function(result) {
+		showResult: function(result, contentType, url) {
 
-			// Show result
-			this.$tryResultText.val(result);
+			if( contentType && contentType.indexOf("image/") == 0 ) {
 
-			// Try to auto format result
-			if( result ) {
-				if( result.charAt(0) == "{" ) {
-					this.formatJSON();
-				} else if( result.charAt(0) == "<" ) {
-					this.formatXML();
+				// Image content type? Create image element.
+				this.$tryResult
+					.empty()
+					.append(
+						$("<h2/>").addClass("try-title").text("Result"),
+						$("<img/>").attr("src", url)
+					);
+
+			} else {
+
+				// Show result
+				this.$tryResultText.val(result);
+
+				// Try to auto format result
+				if( result ) {
+					if( result.charAt(0) == "{" ) {
+						this.formatJSON();
+					} else if( result.charAt(0) == "<" ) {
+						this.formatXML();
+					}
 				}
+
 			}
 		},
 

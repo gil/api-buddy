@@ -89,15 +89,15 @@ define(function(){
 
 				success: function(data, textStatus, jqXHR) {
 
-					APIBuddy.trigger("tryResult", data);
-					APIBuddy.trigger("updateStatus", {label: "Ok!", className: "status-green"});
+					APIBuddy.trigger( "tryResult", data, jqXHR.getResponseHeader('content-type'), url );
+					APIBuddy.trigger( "updateStatus", {label: "Ok!", className: "status-green"} );
 				},
 
 				error: function(jqXHR, textStatus, errorThrown) {
 
 					var prettyError = JSON.stringify(jqXHR, null, '\t');
-					APIBuddy.trigger("tryResult", prettyError);
-					APIBuddy.trigger("updateStatus", {label: "Error!", className: "status-red"});
+					APIBuddy.trigger( "tryResult", prettyError );
+					APIBuddy.trigger( "updateStatus", {label: "Error!", className: "status-red"} );
 				}
 
 			});
