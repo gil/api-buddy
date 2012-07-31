@@ -31,8 +31,17 @@ define(function(){
 				} else if( value != null ) {
 
 					// Add to send on Ajax request
-					ajaxParams[ name ] = value;
+					if( !ajaxParams[ name ] ) {
+						ajaxParams[ name ] = value;	
+					} else {
 
+						// Group params by name, when there is more than one with the same name (dynamic params)
+						if( !_.isArray( ajaxParams[ name ] ) ) {
+							ajaxParams[ name ] = [ ajaxParams[ name ] ];
+						}
+
+						ajaxParams[ name ].push( value );
+					}
 				}
 
 			});
