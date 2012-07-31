@@ -10,7 +10,8 @@ define(function(){
 			visible: true,
 			globalParam: false,
 			urlParam: false,
-			multiValue: false
+			multiValue: false,
+			multipart: false
 		},
 
 		getLabel: function() {
