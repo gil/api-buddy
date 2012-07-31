@@ -1671,6 +1671,107 @@ define(function(){
 						]
 					}
 				]
+			},
+
+			// Related Lists API
+			
+			{
+				name: "Related Lists",
+				endpoints: [
+					{
+						label: "Read",
+						url: "/relatedLists/{propertyId}",
+						method: "GET",
+						description: "Read the related list property.",
+						params: [
+							{
+								name: "propertyId",
+								urlParam: true,
+								description: "The related list property ID."
+							}
+						],
+						errors: [
+							{
+								label: "412 - Precondition Failed",
+								description: "<i>property.notFound</i> - The property was not found."
+							}
+						]
+					},
+					{
+						label: "Create",
+						url: "/relatedLists",
+						method: "POST",
+						description: "Create a new related list property.",
+						dynamicParams: true,
+						params: [
+							{
+								name: "name",
+								description: "The property name."
+							},
+							{
+								name: "parentId",
+								description: "The parent property ID."
+							}
+						],
+						errors: [
+							{
+								label: "412 - Precondition Failed",
+								description: "<i>property.name.alreadyInUse</i> - The name is already in use."
+							},
+							{
+								label: "412 - Precondition Failed",
+								description: "<i>property.notFound</i> - The parent property was not found."
+							}
+						]
+					},
+					{
+						label: "Update",
+						url: "/relatedLists/{propertyId}",
+						method: "PUT",
+						description: "Update an existing related list property.",
+						dynamicParams: true,
+						params: [
+							{
+								name: "propertyId",
+								urlParam: true,
+								description: "The property ID."
+							},
+							{
+								name: "parentId",
+								description: "The parent property ID."
+							}
+						],
+						errors: [
+							{
+								label: "412 - Precondition Failed",
+								description: "<i>property.notFound</i> - The property was not found."
+							},
+							{
+								label: "412 - Precondition Failed",
+								description: "<i>property.notFound</i> - The parent property was not found."
+							}
+						]
+					},
+					{
+						label: "Remove",
+						url: "/relatedLists/{propertyId}",
+						method: "DELETE",
+						description: "Delete the related list property.",
+						params: [
+							{
+								name: "propertyId",
+								urlParam: true,
+								description: "The related list property ID."
+							}
+						],
+						errors: [
+							{
+								label: "412 - Precondition Failed",
+								description: "<i>property.notFound</i> - The property was not found."
+							}
+						]
+					}
+				]
 			}
 			
 			// Next Group
@@ -1682,3 +1783,4 @@ define(function(){
 	return Config;
 
 });
+
