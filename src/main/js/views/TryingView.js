@@ -18,6 +18,8 @@ define([
 		},
 
 		elements: {
+			"form" : ".try-form",
+			"tryResult" : ".try-result",
 			"tryResultText" : ".try-result-text",
 			"inputs" : ".trying-input",
 			"status" : ".try-result-status"
@@ -65,6 +67,11 @@ define([
 				.appendTo( $("body") );
 
 			this.reloadElements();
+
+			// Hide result, when there is a upload
+			if( this.hasUpload() ) {
+				this.$tryResult.hide();
+			}
 		},
 
 		getAllParams: function(endpoint) {
@@ -83,14 +90,27 @@ define([
 			return endpointErrors.concat( globalErrors );
 		},
 
+		hasUpload: function() {
+			return (this.$("input[type=file]").length > 0);
+		},
+
 		tryClick: function(e) {
 
-			// Call API
-			TryingController.tryEndpoint( this.endpoint, this.getParamElements(this.endpoint) );
+			// No uploads? Call using Ajax and prevent form submit
+			if( !this.hasUpload() ) {
 
-			// Avoid submiting form
-			e.preventDefault();
-			return false;
+				// Call API
+				TryingController.tryEndpoint( this.endpoint, this.getParamElements(this.endpoint) );
+
+				// Avoid submiting form
+				e.preventDefault();
+				return false;
+
+			} else {
+
+				// Set form action and call upload
+				this.$form.attr( "action", Config.url + this.endpoint.get("url") );
+			}
 		},
 
 		duplicateParam: function(e) {
@@ -151,7 +171,7 @@ define([
 		},
 
 		updateStatus: function(status) {
-			
+
 			this.$status
 				.html( "[" + status.label + "]" )
 				.removeClass("status-yellow status-green status-red")

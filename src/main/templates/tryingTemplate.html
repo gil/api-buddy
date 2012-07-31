@@ -11,7 +11,7 @@
 
 <p class="try-description"><%= description %></p>
 
-<form class="try-form">
+<form class="try-form" method="post" target="_blank" enctype="multipart/form-data">
 	<table class="try-params">
 
 		<%
@@ -52,7 +52,7 @@
 
 							<% } else { %>
 
-								<input id="<%= param.get("name") %>" value="<%= value %>" type="text" class="trying-input" />
+								<input id="<%= param.get("name") %>" name="<%= param.get("name") %>" value="<%= value %>" type="<%= param.get("multipart") ? 'file' : 'text' %>" class="trying-input" />
 
 							<% } %>
 

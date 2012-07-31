@@ -71,6 +71,10 @@ i, em {
 	font-style: italic;
 }
 
+small {
+	font-size: 0.7em;
+}
+
 h1 {
 	font-size: 2em;
 	font-weight: bold;
@@ -263,10 +267,13 @@ code {
 	}
 }
 
+.try-form {
+	margin-bottom: 40px;
+}
+
 .try-result {
 	font-weight: bold;
 	font-size: 0.9em;
-	margin-top: 40px;
 
 	.try-result-formatters {
 		margin: 0px;

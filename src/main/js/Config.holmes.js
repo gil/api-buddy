@@ -1524,6 +1524,27 @@ define(function(){
 				name: "Document",
 				endpoints: [
 					{
+						label: "Upload / Update Version",
+						url: "/upload",
+						description: "Upload a new document or update existing one.<br/><small>(This call will open a new window)</small>",
+						params: [
+							{
+								name: "file",
+								multipart: true,
+								description: "File to be uploaded."
+							},
+							{
+								name: "thumbPage",
+								value: "0",
+								description: "Document page to generate thumbnail from."
+							},
+							{
+								name: "parentId",
+								description: "The document ID, when updating version (optional)."
+							}
+						]
+					},
+					{
 						label: "Lock Document",
 						url: "/document/{id}/lockForEditing",
 						method: "POST",
