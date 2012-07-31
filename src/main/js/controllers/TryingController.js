@@ -89,7 +89,7 @@ define(function(){
 
 				success: function(data, textStatus, jqXHR) {
 
-					APIBuddy.trigger( "tryResult", data, jqXHR.getResponseHeader('content-type'), url );
+					APIBuddy.trigger( "tryResult", data, jqXHR.getResponseHeader('content-type'), this.url );
 					APIBuddy.trigger( "updateStatus", {label: "Ok!", className: "status-green"} );
 				},
 
