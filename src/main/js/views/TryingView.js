@@ -123,8 +123,9 @@ define([
 			input.parents(".try-param").append(
 				$('<div class="param-clone"></div>').append( clones )
 			);
+			this.reloadElements();
 
-			// Clena values and focus the cloned input
+			// Clean values and focus the cloned input
 			clones.val("").first().focus();
 		},
 
@@ -135,6 +136,7 @@ define([
 
 			// Remove the last one
 			clones.last().remove();
+			this.reloadElements();
 
 			// Focus the last one now
 			clones.eq(-2).find(".trying-input").first().focus();
