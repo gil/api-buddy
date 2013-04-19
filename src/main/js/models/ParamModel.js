@@ -11,7 +11,9 @@ define(function(){
 			globalParam: false,
 			urlParam: false,
 			multiValue: false,
-			multipart: false
+			multipart: false,
+			required: false,
+			headerParam: false
 		},
 
 		getLabel: function() {
@@ -21,6 +23,14 @@ define(function(){
 			}
 
 			return this.get("label");
+		},
+
+		getDescription: function () {
+			if (this.get("required")) {
+				return this.get("description") + ' (REQUIRED)';
+			}
+			
+			return this.get("description");
 		}
 
 	});
