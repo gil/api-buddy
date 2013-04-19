@@ -8,6 +8,8 @@ define(function(){
 			dynamicParams: false,
 			url: "",
 			method: "GET",
+			jsonType: false,
+			className: null,
 			params: [],
 			errors: []
 		},

@@ -14,13 +14,30 @@ define(function(){
 			// Read the method
 			var method = endpoint.get("method").trim().toLowerCase();
 
+			//Read jsonType
+			var className = endpoint.get("className");
+			var jsonType = endpoint.get("jsonType");
+
 			// Read the parameters
 			var ajaxParams = {};
+			var requiredMissing = false;
+			var headers = {};
 
 			_.each(params, function(param){
 
 				var name = param.model.get("name");
-				var value = getValueFrom( param.el );
+				var paramel = param.el;
+
+				if (name.indexOf('.') !== -1) {
+					paramel = param.el.prevObject;
+				}
+
+				var value = getValueFrom( paramel );
+				var required = param.model.get("required");
+
+				if (required && value === null) {
+					requiredMissing = true;
+				}
 
 				// URL param?
 				if( param.model.get("urlParam") ) {
@@ -28,7 +45,13 @@ define(function(){
 					// Replace all occurrences on URL
 					endpointUrl = endpointUrl.split("{" + name + "}").join(value);
 
-				} else if( value != null ) {
+				// Header param?
+				} else if ( param.model.get("headerParam" ) ) {
+
+					//Set this as header param
+					headers[ name ] = value;
+
+				} else if ( value != null ) {
 
 					// Add to send on Ajax request
 					if( !ajaxParams[ name ] ) {
@@ -45,6 +68,19 @@ define(function(){
 				}
 
 			});
+
+			//Check if need to create a json
+			if ( jsonType && className) {
+				var obj = new Object();
+				obj[className] = ajaxParams;
+				ajaxParams = JSON.stringify(obj);
+			}
+			
+			//Check if missing a required parameter
+			if (requiredMissing) {
+				APIBuddy.trigger( "updateStatus", {label: "Missing required parameter", className: "status-red"} );
+				return;
+			}
 
 			// Should we send the method as a parameter?
 			if( Config.methodParam ) {
@@ -79,7 +115,11 @@ define(function(){
 
 				data: ajaxParams,
 
+				headers: headers,
+
 				traditional: traditionalSerialization,
+
+				contentType: "application/json",
 
 				dataType: "text",
 
